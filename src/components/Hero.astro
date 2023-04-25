@@ -1,0 +1,36 @@
+---
+import { butterClient } from "../lib/buttercms";
+
+const response = await butterClient.page.retrieve('*', 'home-page');
+const pageData = response.data.data;
+
+interface Hero {
+  heading: string,
+  sub_heading: string,
+  chrome_button_label: string,
+  firefox_button_label: string,
+  hero_image: any,
+}
+const hero = pageData.fields.hero as Hero
+---
+
+<header class="relative">
+    <div class="container mx-auto px-10 lg:px-28 flex flex-col-reverse lg:flex-row items-center gap-4 mt-14 lg:mt-28">
+        <div class="flex flex-1 flex-col items-center lg:items-start">
+            <h2 class="font-bold text-dark-blue text-3xl md:text-4xl lg:text-5xl text-center lg:text-left mb-6">
+                {hero.heading}
+            </h2>
+            <p class="text-grayish-blue text-center lg:text-left mb-6 text-md lg:text-2xl">
+                {hero.sub_heading}
+            </p>
+            <div class="flex justify-center text-xs lg:text-lg gap-2 lg:gap-6">
+                <button type="button" class="btn btn-blue hover:bg-white hover:text-bookmark-blue border hover:border-bookmark-blue">{hero.chrome_button_label}</button>
+                <button type="button" class="btn btn-white hover:text-dark-blue border hover:border-dark-blue">{hero.firefox_button_label}</button>
+            </div>
+        </div>
+        <figure class="flex justify-center flex-1 mb-4 md:mb-16 lg:mb-0 z-10">
+            <img src={hero.hero_image} alt="Hero section illustration">
+        </figure>
+    </div>
+    <div class="absolute h-[30%] md:h-1/2 lg:h-80 w-[80%] lg:w-2/5 top-16 lg:top-32 right-0 overflow-hidden bg-bookmark-blue rounded-l-full"></div>
+</header>

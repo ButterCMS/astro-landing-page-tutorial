@@ -1,0 +1,35 @@
+---
+import { butterClient } from "../lib/buttercms";
+
+const response = await butterClient.page.retrieve('*', 'home-page');
+const pageData = response.data.data;
+
+interface Downloads {
+  heading: string,
+  sub_heading: string,
+  downloads: any,
+}
+const downloads = pageData.fields.download as Downloads
+---
+
+<section class='py-20 mt-20'>
+    <div class="sm:w-3/4 lg:w-5/12 mx-auto px-2">
+        <h1 class="font-bold text-2xl lg:text-4xl text-center text-dark-blue">{downloads.heading}</h1>
+        <p class="text-lg lg:text-xl text-center text-grayish-blue mt-4">
+           {downloads.sub_heading}
+        </p>
+    </div>
+    <div class='container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-screen-lg mt-16 p-10'>
+        {downloads.downloads.map((download) => (
+                <div class='flex flex-col rounded-md shadow-md lg:mb-16 even:lg:my-8'>
+                    <div class='flex flex-col p-6 items-center'>
+                        <img src={download.browser_logo} alt='Chrome browser illustration' />
+                        <h3 class='mt-5 mb-2 text-dark-blue text-lg font-semibold'>{download.title}</h3>
+                        <p class='mb-10 text-grayish-blue'>{download.description}</p>
+                        <img src={download.dotted_image} alt='dotted line' class='mb-6' />
+                        <button type='button' class='btn btn-blue hover:bg-white hover:text-bookmark-blue border hover:border-bookmark-blue text-sm'>{download.label}</button>
+                    </div>
+                </div>
+        ))}
+    </div>
+</section>

@@ -1,0 +1,43 @@
+---
+import { butterClient } from "../lib/buttercms";
+
+const response = await butterClient.page.retrieve('*', 'home-page');
+const pageData = response.data.data;
+
+interface Features {
+  heading: string,
+  sub_heading: string,
+  features: any,
+}
+const features = pageData.fields.features as Features
+
+---
+
+<section class="relative py-20 mt-20 lg:mt-60">
+    <div class="sm:w-3/4 lg:w-5/12 mx-auto px-2">
+        <h1 class="font-bold text-4xl text-center text-dark-blue">{features.heading}</h1>
+        <p class="text-sm lg:text-xl text-center text-grayish-blue mt-4">
+            {features.sub_heading}
+        </p>
+    </div>
+    <div class="relative mt-20 lg:mt-24">
+        {
+            features.features.map((feature) => (
+                <div class="container flex flex-col lg:flex-row items-center justify-center gap-x-24 px-10 lg:px-28 even:lg:flex-row-reverse lg:even:my-20">
+                    <figure class="flex flex-1 justify-center z-10 mb-10 lg:mb-0">
+                        <img src={feature.illustration} alt="Features illustration one">
+                    </figure>
+                    <div class="flex flex-1 flex-col items-center lg:items-start">
+                        <h1 class="text-2xl lg:text-4xl text-center lg:text-left text-dark-blue font-bold">{feature.title}</h1>
+                        <p class="text-center lg:text-left my-12 text-md lg:text-2xl text-grayish-blue">
+                        {feature.description}
+                        </p>
+                        <button type="button" class="btn btn-blue hover:bg-white hover:text-bookmark-blue border hover:border-bookmark-blue hidden md:block">{feature.label}</button>
+                    </div>
+                </div>
+                // <div class="absolute h-[35%] md:h-2/5 lg:h-3/4 w-[80%] lg:w-2/5 bottom-60 lg:-bottom-10 left-0 even:bottom-60 even:lg:-bottom-10 even:right-0 overflow-hidden bg-bookmark-blue rounded-r-full"></div>
+            ))
+        }
+    </div>
+
+</section>

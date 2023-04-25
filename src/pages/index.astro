@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Download from '../components/Download.astro';
+import FAQ from '../components/FAQ.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<Layout title="Welcome to Bookmark landing page.">
+	<Hero />
+	<main>
+		<Features />
+        <Download />
+        <FAQ />
+        <Contact />
+	</main>
+</Layout>
+
+<style is:global>
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+	scroll-behaviour: smooth;
+}
+
+@tailwind base;
+
+@layer base {
+    .btn{
+        @apply shadow-md py-3 px-6 rounded-md transition duration-300 font-medium lg:font-semibold
+    }
+    .btn-blue{
+        @apply bg-bookmark-blue text-white
+    }
+    .btn-white{
+        @apply bg-white text-dark-blue
+    }
+}
+</style>
