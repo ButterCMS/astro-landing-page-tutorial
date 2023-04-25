@@ -1,0 +1,75 @@
+---
+import hamburger from '../images/icon-hamburger.svg';
+import facebook from '../images/icon-facebook.svg';
+import twitter from '../images/icon-twitter.svg';
+import { butterClient } from "../lib/buttercms";
+
+const response = await butterClient.content.retrieve(["menu"]);
+const footerResponse = await butterClient.content.retrieve(["footer_menu"]);
+
+
+const headerMenu = response.data.data.menu[0]
+const footerMenu = footerResponse.data.data.footer_menu[0]
+console.log(footerMenu)
+
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-white">
+		<nav class='container mx-auto lg:px-28 px-10 flex items-center py-4 mt-4 sm:mt-12'>
+			<div>
+				<img src={headerMenu.logo} alt="Bookmark SVG" />
+			</div>
+			<div class="hidden md:flex flex-1 justify-end items-center gap-12 uppercase">
+				<ul class="hidden md:flex flex-1 justify-end items-center gap-12 text-sm">
+					{
+						headerMenu.nav_items.map(item => (
+								<li><a href={item.url}>{item.label}</a></li>
+						))
+					}
+				</ul>
+				<button class="bg-bookmark-red text-white rounded-md px-7 py-3 font-bold hover:bg-white hover:text-bookmark-red border hover:border-bookmark-red">Login</button>
+			</div>
+			<div class="flex md:hidden flex-1 justify-end">
+				<img src={hamburger} alt="mobile navigation">
+			</div>
+		</nav>
+		<slot />
+		<footer class="py-8 bg-dark-blue lg:px-28 px-10">
+			<div class="container flex flex-col md:flex-row items-center">
+				<div class="flex flex-1 flex-col md:flex-row items-center justify-center md:justify-start gap-12">
+					<img src={footerMenu.footer_logo} alt="Bookmark SVG">
+					<ul class="flex flex-col md:flex-row text-white uppercase gap-12 text-sm">
+						{
+							footerMenu.footer_items.map(item => (
+									<li><a href={item.label}>{item.label}</a></li>
+							))
+						}
+					</ul>
+
+				</div>
+				<div class="flex gap-10 mt-12 md:mt-0 list-none">
+					<li>
+						<img src={footerMenu.facebook} alt="facebook icon">
+					</li>
+					<li>
+						<img src={footerMenu.twitter} alt="twitter icon">
+					</li>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
